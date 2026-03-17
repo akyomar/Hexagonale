@@ -1,0 +1,111 @@
+# Environment & secrets (ne pas push)
+.env
+.env.local
+.env.*.local
+**/secrets.json
+appsettings.*.local.json
+
+# Build & sorties .NET (ne pas push)
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Oo]ut/
+[Dd]ebug/
+[Rr]elease/
+[Pp]ublish/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/[Oo]bj/
+[Oo]bj/[Ll]og/
+
+# Fichiers utilisateur / IDE (ne pas push)
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+.vs/
+.idea/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code (optionnel : retirer si vous versionnez .vscode)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Rider
+.idea/
+*.sln.iml
+
+# Tests & couverture (ne pas push)
+[Tt]est[Rr]esults/
+[Tt]est[Rr]esults*/
+[Cc]overage/
+[Cc]overageReport/
+*.trx
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+
+# NuGet (générés / restauration)
+packages/
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Cache & temporaires
+*.cache
+*.log
+*.tmp
+*.temp
+[Tt]mp/
+[Tt]emp/
+.nuget/
+NuGet.Config.dotnet
+
+# OS (ne pas push)
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Docker (optionnel, garder .dockerignore versionné)
+# *.env déjà en haut
+
+# JetBrains
+*.sln.iml
+.idea/
+
+# Rider / ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Windows
+[Tt]humbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Backup & éditeurs
+*~
+*.bak
+*.swp
+*.swo
+*~

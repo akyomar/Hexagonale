@@ -1,0 +1,86 @@
+# Pipeline CI Azure DevOps – Hexagonale (POC)
+# Build, test et couverture. À attacher au repo dans Azure Pipelines.
+
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+  paths:
+    exclude:
+      - 'docs/**'
+      - '*.md'
+      - '.gitignore'
+
+pr:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+  paths:
+    exclude:
+      - 'docs/**'
+      - '*.md'
+
+variables:
+  buildConfiguration: Release
+  dotnetVersion: '8.0.x'
+
+stages:
+  - stage: Build
+    displayName: Build et tests
+    jobs:
+      - job: BuildAndTest
+        displayName: Restore, build, test
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: 'Installer .NET $(dotnetVersion)'
+            inputs:
+              packageType: 'sdk'
+              version: $(dotnetVersion)
+              includePreviewVersions: false
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Restore'
+            inputs:
+              command: 'restore'
+              projects: '**/*.sln'
+              feedsToUse: 'select'
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              command: 'build'
+              projects: '**/*.sln'
+              arguments: '--no-restore --configuration $(buildConfiguration)'
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Tests unitaires + couverture'
+            inputs:
+              command: 'test'
+              projects: 'test/Hexagonal.UnitTests/Hexagonal.UnitTests.csproj'
+              arguments: >
+                --no-build
+                --configuration $(buildConfiguration)
+                --collect:"XPlat Code Coverage"
+                --results-directory $(Build.ArtifactStagingDirectory)/TestResults
+                --settings test/Hexagonal.UnitTests/coverlet.runsettings
+                --logger trx
+                --logger "console;verbosity=normal"
+              publishTestResults: true
+              testResultsFormat: 'VSTest'
+              testResultsFiles: '**/*.trx'
+              searchFolder: '$(Build.ArtifactStagingDirectory)/TestResults'
+              failTaskOnFailedTests: true
+
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Publier couverture'
+            condition: succeededOrFailed()
+            inputs:
+              summaryFileLocation: '$(Build.ArtifactStagingDirectory)/TestResults/**/coverage.cobertura.xml'
+              reportDirectory: '$(Build.ArtifactStagingDirectory)/TestResults'
+              failIfCoverageEmpty: false
