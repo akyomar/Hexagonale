@@ -11,6 +11,9 @@ appsettings.*.local.json
 [Ll]og/
 [Ll]ogs/
 [Oo]ut/
+# Exception : dossier Ports/Out (interfaces des ports sortants) doit être versionné
+!**/Ports/Out/
+!**/Ports/Out/**
 [Dd]ebug/
 [Rr]elease/
 [Pp]ublish/
