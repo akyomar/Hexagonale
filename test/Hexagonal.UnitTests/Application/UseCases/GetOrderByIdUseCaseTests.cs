@@ -3,7 +3,6 @@ using Hexagonal.Application.Ports.Out;
 using Hexagonal.Application.UseCases.Orders;
 using Hexagonal.Domain.Entities;
 using Hexagonal.Domain.ValueObjects;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -17,7 +16,7 @@ public class GetOrderByIdUseCaseTests
     public GetOrderByIdUseCaseTests()
     {
         _orderRepo = new Mock<IOrderRepository>();
-        _sut = new GetOrderByIdUseCase(_orderRepo.Object, Mock.Of<ILogger<GetOrderByIdUseCase>>());
+        _sut = new GetOrderByIdUseCase(_orderRepo.Object);
     }
 
     [Fact]
